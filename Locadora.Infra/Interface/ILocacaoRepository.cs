@@ -8,5 +8,7 @@ namespace Locadora.Infra.Interface
     public interface ILocacaoRepository
     {
         void add(Locacao locacao);
+
+        
     }
 }

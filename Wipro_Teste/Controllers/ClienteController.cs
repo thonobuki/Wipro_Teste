@@ -33,7 +33,7 @@ namespace LocadoraWebAPI.Controllers
             {
                 try
                 {
-                  var retornoCliente =  _ClienteRepository.find(cliente);
+                  var retornoCliente =  _ClienteRepository.find(cliente.idCliente);
 
                     // valida se cliente já existe ante de inserir
                     if (retornoCliente != null)

@@ -9,7 +9,7 @@ namespace Locadora.Infra.Interface
     {
         void add(Cliente cliente);
 
-        Cliente find(Cliente cliente);
+        Cliente find(int id);
 
     }
 }

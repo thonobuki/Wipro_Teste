@@ -5,9 +5,9 @@ namespace Locadora.Entidade
     public partial class Cliente
     {
         [Key]
-        int idCliente { get; set; }
-        string nome { get; set; }
-        int idade { get; set; }
-        string endereco { get; set; }
+        public int idCliente { get; set; }
+        public string nome { get; set; }
+        public int idade { get; set; }
+        public string endereco { get; set; }
     }
 }
