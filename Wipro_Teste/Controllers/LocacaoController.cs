@@ -20,7 +20,8 @@ namespace LocadoraWebAPI.Controllers
             _locacaoRepository = _locacaoRepo;
         }
 
-        public IActionResult Create([FromBody] Locacao locacao)
+        [System.Web.Http.HttpPost]
+        public IActionResult Create([FromBody] Locacao locacao, Filme filme)
         {
             if (locacao == null)
             {
@@ -28,8 +29,18 @@ namespace LocadoraWebAPI.Controllers
             }
             try
             {
-                _locacaoRepository.add(locacao);
-                return Ok(true);
+
+                // Verifica se eu já tenho o filme estoque para locar
+                if (filme.qtdEstoque <= 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    _locacaoRepository.add(locacao);
+                    return Ok(true);
+                }
+
             }
             catch (Exception ex)
             {
@@ -37,5 +48,49 @@ namespace LocadoraWebAPI.Controllers
             }
         }
 
+        [HttpPut("{id}")]
+        public IActionResult devolucao(int id, [FromBody] Locacao locacao, Filme ficlme)
+        {
+            if (locacao == null || locacao.idLocacao != id)
+            {
+                return BadRequest();
+            }
+
+            var _locacao = _locacaoRepository.find(locacao);
+
+            if (locacao == null)
+            {
+                return NotFound();
+            }
+
+            _locacao.idCliente = locacao.idCliente;
+            _locacao.qtdLocada = locacao.qtdLocada;
+            _locacao.dtLocacao = DateTime.Now;
+            _locacao.dtDevolucao = locacao.dtDevolucao;
+            _locacao.filme = locacao.filme;
+
+
+            // Verifica se a data de devolução está excedida
+            if (locacao.dtDevolucao > DateTime.Now)
+            {
+                
+                _locacaoRepository.devolucao(_locacao);
+                return NotFound(
+                   new
+                   {
+                       Mensagem = "Data de devolução excedida!",
+                       Erro = false
+                   });
+            }
+            else
+            {
+                _locacaoRepository.devolucao(_locacao);
+                return new NoContentResult();
+            }
+
+           
+            
+
+        }
     }
 }

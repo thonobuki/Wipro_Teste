@@ -11,5 +11,6 @@ namespace Locadora.Entidade
         public int qtdLocada { get; set; }
         public DateTime dtLocacao { get; set; }
         public DateTime dtDevolucao { get; set; }
+        public Filme filme { get; set; }
     }
 }

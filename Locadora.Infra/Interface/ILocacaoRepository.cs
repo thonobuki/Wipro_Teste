@@ -9,6 +9,8 @@ namespace Locadora.Infra.Interface
     {
         void add(Locacao locacao);
 
-        
+        Locacao find(Locacao locacao);
+
+        Locacao devolucao(Locacao locacao);
     }
 }
